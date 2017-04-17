@@ -94,8 +94,8 @@ public class Main
 
            List<String> branches = config.getChannelToBranchMap().get( channelName );
            return branches.stream().anyMatch( branch ->
-               branch.toLowerCase().contains( source ) ||
-               branch.toLowerCase().contains( target )
+               source.toLowerCase().contains( branch.toLowerCase() ) ||
+               target.toLowerCase().contains( branch.toLowerCase() )
            );
 
         } )
