@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -30,6 +30,8 @@ public class Main
 
    @Autowired
    private JSONConfig config;
+
+   private Set<Long> iids = new HashSet<>();
 
    @RequestMapping("/")
    @ResponseBody
@@ -57,6 +59,7 @@ public class Main
       String sourceBranchName = event.getAttributes().getSourceBranch();
       String targetBranchName = event.getAttributes().getTargetBranch();
       String state = event.getAttributes().getState();
+      long iid = event.getAttributes().getIid();
       String msg = "";
       System.out.println( state );
 
@@ -71,16 +74,38 @@ public class Main
             comment = comment.substring( 0, 50 )  + " ...";
          }
 
-         msg = String.format( ">>> <!here> :mr: %s: *Merge request* from %s : %s → %s", projectName, userName, sourceBranchName, targetBranchName );
+         if( iids.contains( iid ) )
+         {
+            msg = String.format(
+                ">>> <!here> :mr: %s: *Merge request* (updated) from %s : %s → %s",
+                projectName,
+                userName,
+                sourceBranchName,
+                targetBranchName
+            );
+         }
+         else
+         {
+            iids.add( iid );
+            msg = String.format(
+                ">>> <!here> :mr: %s: *Merge request* from %s : %s → %s",
+                projectName,
+                userName,
+                sourceBranchName,
+                targetBranchName
+            );
+         }
          msg += String.format("\n```%s```", comment);
          msg += "\n" + event.getAttributes().getUrl();
       }
       else if( "closed".equalsIgnoreCase( state ) )
       {
+         iids.remove( iid );
          msg = String.format( "%s: *Merge request* from %s *closed*", projectName, userName );
       }
       else if( "merged".equalsIgnoreCase( state ) )
       {
+         iids.remove( iid );
          msg = String.format( ">>> :tips: %s: *Merge request* accepted by %s : %s → %s ", projectName, userName, sourceBranchName, targetBranchName );
       }
 
