@@ -65,7 +65,14 @@ public class Main
 
       if( "opened".equalsIgnoreCase( state ) || "reopened".equalsIgnoreCase( state ) )
       {
-         msg = String.format( "<!here> :mr: %s: *Merge request* from %s : %s → %s", projectName, userName, sourceBranchName, targetBranchName );
+         String comment = event.getAttributes().getLastCommit().getMessage();
+         if( comment.length() > 70 )
+         {
+            comment = comment.substring( 0, 50 )  + " ...";
+         }
+
+         msg = String.format( ">>> <!here> :mr: %s: *Merge request* from %s : %s → %s", projectName, userName, sourceBranchName, targetBranchName );
+         msg += String.format("\n```%s```", comment);
          msg += "\n" + event.getAttributes().getUrl();
       }
       else if( "closed".equalsIgnoreCase( state ) )
@@ -74,7 +81,7 @@ public class Main
       }
       else if( "merged".equalsIgnoreCase( state ) )
       {
-         msg = String.format( ":tips: %s: *Merge request* from %s *accepted*", projectName, userName );
+         msg = String.format( ">>> :tips: %s: *Merge request* accepted by %s : %s → %s ", projectName, userName, sourceBranchName, targetBranchName );
       }
 
       if( !msg.trim().isEmpty() )
