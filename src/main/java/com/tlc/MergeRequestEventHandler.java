@@ -2,6 +2,7 @@ package com.tlc;
 
 import org.openactive.gitlab.webhook.domain.GitlabEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -18,6 +19,7 @@ public class MergeRequestEventHandler
    @Autowired
    private JSONConfig config;
 
+   @Async
    public void mergeRequestEvent( GitlabEvent event )
    {
       String projectName = event.getAttributes().getTarget().getName();
@@ -37,7 +39,7 @@ public class MergeRequestEventHandler
          String comment = event.getAttributes().getLastCommit().getMessage();
          if( comment.length() > 70 )
          {
-            comment = comment.substring( 0, 50 )  + " ...";
+            comment = comment.substring( 0, 50 )  + "...";
          }
 
          if( iids.contains( iid ) )
@@ -65,7 +67,6 @@ public class MergeRequestEventHandler
 
       sendMsgs( msg, channelNames );
    }
-
 
    private void sendMsgs( String msg, List<String> channelNames)
    {
