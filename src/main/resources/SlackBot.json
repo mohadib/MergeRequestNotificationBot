@@ -1,0 +1,10 @@
+// should be in ~/home/SlackBot.json
+{
+  "botName" : "MergeBot",
+  "apiToken" : "slack-token-here",
+  "avatarUrl" : "https://avatar.url.com/foo",
+  "channelToBranch" : {
+    "bottest" : [ "snow", "master" ],
+    "channel_two" : [ "some_branch", "master" ]
+  }
+}

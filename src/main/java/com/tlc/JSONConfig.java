@@ -7,6 +7,12 @@ import java.util.Map;
 
 public class JSONConfig
 {
+   @JsonProperty("botName")
+   private String botName;
+
+   @JsonProperty("avatarUrl")
+   private String avatarUrl;
+
    @JsonProperty("apiToken")
    private String apiToken;
 
@@ -31,5 +37,25 @@ public class JSONConfig
    public void setChannelToBranchMap( Map<String, List<String>> channelToBranchMap )
    {
       this.channelToBranchMap = channelToBranchMap;
+   }
+
+   public String getBotName()
+   {
+      return botName;
+   }
+
+   public void setBotName( String botName )
+   {
+      this.botName = botName;
+   }
+
+   public String getAvatarUrl()
+   {
+      return avatarUrl;
+   }
+
+   public void setAvatarUrl( String avatarUrl )
+   {
+      this.avatarUrl = avatarUrl;
    }
 }
