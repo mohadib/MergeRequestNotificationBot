@@ -25,7 +25,20 @@ public class PipelineEventHandler implements EventHandler
       if( channelNames.isEmpty() ) return;
 
       String format = ">>> <!here> :hammer: %s: *Pipeline Event* on %s status: *%s*\n";
-      format += "https://git.carl.org/connect/connect/builds/" + findFaildBuild( event.getBuilds() );
+
+      long badBuildId = findFaildBuild( event.getBuilds() );
+      if( badBuildId == -1 )
+      {
+         // most likely a failure due to bad gitlab ci yml
+         // fall back to pipeline link
+         format += "https://git.carl.org/connect/connect/pipelines/" + event.getAttributes().getId();
+      }
+      else
+      {
+         format += "https://git.carl.org/connect/connect/builds/" + badBuildId ;
+      }
+
+
 
 
       String msg = String.format(
