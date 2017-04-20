@@ -20,12 +20,11 @@ public class PipelineEventHandler implements EventHandler
    {
       if( !"failed".equals( event.getAttributes().getStatus() ) ) return;
 
-      System.out.println( "ID ? " + event.getAttributes().getId() );
-
       List<String> channelNames = channels( event.getAttributes().getRef(), event.getProject().getName() );
       if( channelNames.isEmpty() ) return;
 
-      String format = ">>> <!here> :hammer: %s: *Pipeline Event* on %s status: *%s*";
+      String format = ">>> <!here> :hammer: %s: *Pipeline Event* on %s status: *%s*\n";
+      format += "https://git.carl.org/connect/connect/pipelines/" + event.getAttributes().getId();
 
       String msg = String.format(
         format,
