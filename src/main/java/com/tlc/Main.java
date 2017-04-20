@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.Executor;
 
 @Controller
 @EnableAutoConfiguration
@@ -55,6 +57,13 @@ public class Main
       ObjectMapper mapper = new ObjectMapper();
       return mapper.readValue( new File( homeDirPath, "SlackBot.json" ), JSONConfig.class );
    }
+
+   @Bean(name = "threadPoolTaskExecutor")
+   public Executor threadPoolTaskExecutor()
+   {
+      return new ThreadPoolTaskExecutor();
+   }
+
 
    public static void main( String[] args )
    {
