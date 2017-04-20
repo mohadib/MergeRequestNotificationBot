@@ -2,6 +2,7 @@ package com.tlc;
 
 import org.openactive.gitlab.webhook.domain.GitlabEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,20 +14,21 @@ public class PipelineEventHandler implements EventHandler
    @Autowired
    private JSONConfig config;
 
+   @Async
    @Override
    public void handle( GitlabEvent event )
    {
+      if( !"failed".equals( event.getAttributes().getStatus() ) ) return;
+
+      System.out.println( "ID ? " + event.getAttributes().getId() );
+
       List<String> channelNames = channels( event.getAttributes().getRef(), event.getProject().getName() );
       if( channelNames.isEmpty() ) return;
 
-      String format = ":hammer: %s: *Pipeline Event* on %s status: *%s*";
-      if( !"success".equals( event.getAttributes().getStatus() ) )
-      {
-         format = "<!here> " + format;
-      }
+      String format = ">>> <!here> :hammer: %s: *Pipeline Event* on %s status: *%s*";
 
       String msg = String.format(
-        ">>> " + format,
+        format,
         event.getProject().getName(),
         event.getAttributes().getRef(),
         event.getAttributes().getStatus()
