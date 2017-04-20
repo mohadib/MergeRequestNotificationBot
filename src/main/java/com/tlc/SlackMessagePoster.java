@@ -8,6 +8,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.List;
 
 public class SlackMessagePoster
 {
@@ -19,6 +20,11 @@ public class SlackMessagePoster
       this.token = token;
       this.fromName = fromName;
       this.avatarUrl = avatarUrl;
+   }
+
+   public void say( List<String> channels, String text )
+   {
+      channels.forEach( it -> say( it, text ) );
    }
 
    public void say( String channel, String text)

@@ -66,19 +66,8 @@ public class MergeRequestEventHandler implements EventHandler
          msg = String.format( ">>> :tips: %s: *Merge request* accepted by %s : %s → %s ", projectName, userName, sourceBranchName, targetBranchName );
       }
 
-      sendMsgs( msg, channelNames );
-   }
-
-   private void sendMsgs( String msg, List<String> channelNames)
-   {
-      if( !msg.trim().isEmpty() )
-      {
-         SlackMessagePoster api = new SlackMessagePoster( config.getApiToken(), config.getBotName(), config.getAvatarUrl());
-         for( String channelName : channelNames )
-         {
-            api.say( channelName, msg );
-         }
-      }
+      SlackMessagePoster api = new SlackMessagePoster( config.getApiToken(), config.getBotName(), config.getAvatarUrl());
+      api.say( channelNames, msg );
    }
 
    private String updated( String projectName, String userName, String sourceBranchName, String targetBranchName)

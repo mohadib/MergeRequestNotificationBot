@@ -1,5 +1,6 @@
 package com.tlc;
 
+import org.openactive.gitlab.webhook.domain.Build;
 import org.openactive.gitlab.webhook.domain.GitlabEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -24,7 +25,8 @@ public class PipelineEventHandler implements EventHandler
       if( channelNames.isEmpty() ) return;
 
       String format = ">>> <!here> :hammer: %s: *Pipeline Event* on %s status: *%s*\n";
-      format += "https://git.carl.org/connect/connect/pipelines/" + event.getAttributes().getId();
+      format += "https://git.carl.org/connect/connect/builds/" + findFaildBuild( event.getBuilds() );
+
 
       String msg = String.format(
         format,
@@ -33,19 +35,18 @@ public class PipelineEventHandler implements EventHandler
         event.getAttributes().getStatus()
       );
 
-      sendMsgs( msg, channelNames );
+      SlackMessagePoster api = new SlackMessagePoster( config.getApiToken(), config.getBotName(), config.getAvatarUrl());
+      api.say( channelNames, msg );
    }
 
-   private void sendMsgs( String msg, List<String> channelNames)
+   private long findFaildBuild( List<Build> builds )
    {
-      if( !msg.trim().isEmpty() )
-      {
-         SlackMessagePoster api = new SlackMessagePoster( config.getApiToken(), config.getBotName(), config.getAvatarUrl());
-         for( String channelName : channelNames )
-         {
-            api.say( channelName, msg );
-         }
-      }
+      return
+         builds.stream()
+           .filter( build -> "failed".equals( build.getStatus() ) )
+           .mapToLong( build -> build.getId() )
+           .findFirst()
+           .orElse( -1 );
    }
 
    private List<String> channels( String target, String project )
