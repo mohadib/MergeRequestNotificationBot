@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Component
-public class MergeRequestEventHandler
+@Component("merge")
+public class MergeRequestEventHandler implements EventHandler
 {
    private final Set<Long> iids = Collections.synchronizedSet( new HashSet<>() );
 
@@ -20,7 +20,8 @@ public class MergeRequestEventHandler
    private JSONConfig config;
 
    @Async
-   public void mergeRequestEvent( GitlabEvent event )
+   @Override
+   public void handle( GitlabEvent event )
    {
       String projectName = event.getAttributes().getTarget().getName();
       String userName = event.getUser().getName();

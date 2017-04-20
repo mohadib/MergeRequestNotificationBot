@@ -3,6 +3,7 @@ package com.tlc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.openactive.gitlab.webhook.domain.GitlabEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +26,12 @@ import java.io.IOException;
 public class Main
 {
    @Autowired
-   private MergeRequestEventHandler mergeRequestEventHandler;
+   @Qualifier("merge")
+   private EventHandler mergeRequestEventHandler;
+
+   @Autowired
+   @Qualifier("pipeline")
+   private EventHandler pipelineEventHandler;
 
    @RequestMapping("/")
    @ResponseBody
@@ -33,7 +39,11 @@ public class Main
    {
       if( "merge_request".equalsIgnoreCase( event.getObjectKind() ) )
       {
-         mergeRequestEventHandler.mergeRequestEvent( event );
+         mergeRequestEventHandler.handle( event );
+      }
+      else if( "pipeline".equalsIgnoreCase( event.getObjectKind() ) )
+      {
+         pipelineEventHandler.handle( event );
       }
       return "ok";
    }
