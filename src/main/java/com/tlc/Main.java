@@ -15,7 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
+import javax.servlet.Filter;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.Executor;
@@ -25,7 +27,7 @@ import java.util.concurrent.Executor;
 @Configuration
 @ComponentScan("com.tlc")
 @EnableAsync
-public class Main
+public class Main extends WebMvcConfigurationSupport
 {
    @Autowired
    @Qualifier("merge")
@@ -34,6 +36,16 @@ public class Main
    @Autowired
    @Qualifier("pipeline")
    private EventHandler pipelineEventHandler;
+
+
+   @Bean
+   public Filter logFilter()
+   {
+      GitlabRawEventLogger filter = new GitlabRawEventLogger();
+      filter.setIncludePayload(true);
+      filter.setMaxPayloadLength(5120);
+      return filter;
+   }
 
    @RequestMapping("/")
    @ResponseBody

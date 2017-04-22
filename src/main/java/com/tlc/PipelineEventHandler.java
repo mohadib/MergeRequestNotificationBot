@@ -39,8 +39,6 @@ public class PipelineEventHandler implements EventHandler
       }
 
 
-
-
       String msg = String.format(
         format,
         event.getProject().getName(),
