@@ -21,7 +21,7 @@ import java.util.*;
 public class RssWatcher
 {
 	private Set<String> titles = new HashSet<>();
-	private String rssFeedUrl = "https://tlcdenver.leankit.com/Rss/ByLane/404727594/jdavis@tlcdelivers.com/7c45b6e4f3ea5c009db0333839939c0b";
+	private String rssFeedUrl;
 
 	@Autowired
 	private JSONConfig config;

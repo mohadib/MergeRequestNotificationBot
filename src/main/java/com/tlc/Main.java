@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.Filter;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.Executor;
@@ -38,6 +39,15 @@ public class Main
 
    @Autowired
    private RssWatcher rssWatcher;
+
+   @Bean
+   public Filter logFilter()
+   {
+      GitlabRawEventLogger filter = new GitlabRawEventLogger();
+      filter.setIncludePayload(true);
+      filter.setMaxPayloadLength(5120);
+      return filter;
+   }
 
    @RequestMapping("/")
    @ResponseBody
