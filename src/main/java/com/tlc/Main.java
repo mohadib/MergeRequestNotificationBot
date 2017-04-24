@@ -1,6 +1,7 @@
 package com.tlc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tlc.leankit.RssWatcher;
 import org.openactive.gitlab.webhook.domain.GitlabEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,6 +36,9 @@ public class Main
    @Qualifier("pipeline")
    private EventHandler pipelineEventHandler;
 
+   @Autowired
+   private RssWatcher rssWatcher;
+
    @RequestMapping("/")
    @ResponseBody
    public String index( @RequestBody GitlabEvent event )
@@ -47,6 +51,14 @@ public class Main
       {
          pipelineEventHandler.handle( event );
       }
+      return "ok";
+   }
+
+   @RequestMapping("/rss")
+   @ResponseBody
+   public String rss()
+   {
+      rssWatcher.parseFeed();
       return "ok";
    }
 
