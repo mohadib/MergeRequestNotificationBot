@@ -19,17 +19,22 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Component
 public class RssWatcher
 {
+   private final Logger LOG = LoggerFactory.getLogger( RssWatcher.class );
    private Map<String, Set<String>> titlesMap = new HashMap<>();
 
    @Autowired
    private JSONConfig config;
 
-   @Scheduled(fixedDelay = 60000, initialDelay = 10000)
+   @Scheduled(fixedDelay = 30000, initialDelay = 10000)
    public void parseAllFeeds()
    {
+      LOG.info( "Leankit Parser Running for {} feeds.", config.getRssFeeds().size() );
       for ( LeankitRss rss : config.getRssFeeds() )
       {
          titlesMap.putIfAbsent( rss.getName(), new HashSet<>() );
@@ -43,11 +48,14 @@ public class RssWatcher
       {
          URL url = new URL( rss.getUrl() );
          SyndFeed feed = new SyndFeedInput().build( new XmlReader( url ) );
+
+         LOG.info( "Found {} entries for {}", feed.getEntries().size(), rss.getName() );
+
          Iterator<SyndEntry> entries = feed.getEntries().iterator();
 
          if ( !entries.hasNext() ) return;
 
-         Instant nowMinus10Min = Instant.now().minus( 10, ChronoUnit.DAYS );
+         Instant nowMinus10Min = Instant.now().minus( 5, ChronoUnit.MINUTES );
          SyndEntry current = entries.next();
          Set<String> titles = titlesMap.get( rss.getName() );
          while ( current != null && !titles.contains( current.getTitle() ) )
@@ -57,12 +65,12 @@ public class RssWatcher
             String pubDateString = ((Element) ((List) current.getForeignMarkup()).get( 0 )).getValue();
             Instant pubDate = ZonedDateTime.parse( pubDateString, DateTimeFormatter.ISO_DATE_TIME ).toInstant();
 
-            if
-              (
-              pubDate.isAfter( nowMinus10Min ) &&
-                current.getDescription().getValue().endsWith( ": Ready." )
+            if (
+                  pubDate.isAfter( nowMinus10Min ) &&
+                  current.getDescription().getValue().endsWith( ": Ready." )
               )
             {
+               LOG.info( "Found a new entry!: {}", current.getTitle() );
                newCardInReady( rss.getChannels(), current.getTitle() );
             }
 
