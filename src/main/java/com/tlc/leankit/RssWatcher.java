@@ -86,7 +86,23 @@ public class RssWatcher
 
    private void newCardInReady( List<String> channels, String title )
    {
+      //try to match jira?
+      String ticketNumber = "";
+      try{
+         ticketNumber = title.substring( title.indexOf("(") + 1, title.indexOf(")"));
+      }
+      catch ( Exception e )
+      {
+         LOG.info( "Could not parse jira in: " + title );
+      }
+
       SlackMessagePoster api = new SlackMessagePoster( config.getApiToken(), config.getBotName(), config.getAvatarUrl() );
-      api.say( channels, "New card in ready: " + title );
+      String msg = ">>> :leankit: New card in ready: " + title;
+      if( !ticketNumber.isEmpty() )
+      {
+         msg += "\n http://jira.tlcdelivers.com/browse/" + ticketNumber;
+      }
+
+      api.say( channels, msg );
    }
 }
