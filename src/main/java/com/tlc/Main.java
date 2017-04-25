@@ -74,6 +74,15 @@ public class Main
       return "ok";
    }
 
+   @RequestMapping("/review")
+   @ResponseBody
+   public String review( @RequestBody String data )
+   {
+      System.out.println("REVIEWBOARD");
+      System.out.println(data);
+      return "ok";
+   }
+
    @Bean
    public JSONConfig jsonConfig() throws IOException
    {
