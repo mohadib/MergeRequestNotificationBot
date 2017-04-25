@@ -19,6 +19,19 @@ public class JSONConfig
    @JsonProperty("channelToBranch")
    private Map< String, List<String>> channelToBranchMap;
 
+   @JsonProperty("leankit")
+   private List<LeankitRss> rssFeeds;
+
+   public List<LeankitRss> getRssFeeds()
+   {
+      return rssFeeds;
+   }
+
+   public void setRssFeeds( List<LeankitRss> rssFeeds )
+   {
+      this.rssFeeds = rssFeeds;
+   }
+
    public String getApiToken()
    {
       return apiToken;
