@@ -32,6 +32,6 @@ public class ReviewRequestHandler
 		msg += url;
 
 		SlackMessagePoster api = new SlackMessagePoster( config.getApiToken(), config.getBotName(), config.getAvatarUrl() );
-		api.say( "bottest", msg );
+		api.say( "iago-dev", msg );
 	}
 }
