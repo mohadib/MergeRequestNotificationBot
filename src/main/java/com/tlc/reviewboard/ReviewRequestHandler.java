@@ -6,11 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Component
 public class ReviewRequestHandler
 {
 	@Autowired
 	private JSONConfig config;
+
+	private final List<String> names = Arrays.asList( "jdavis", "ptourvil", "uly" );
 
 	@Async
 	public void handle( ReviewRequestWrapper reviewRequestWrapper )
@@ -25,6 +30,13 @@ public class ReviewRequestHandler
 
 		// get user and url
 		Link submitter = request.getLinks().get( "submitter" );
+
+		if( !names.contains( submitter.getTitle() ) )
+		{
+			System.out.println("Ignoring review request for " + submitter.getTitle() );
+			return;
+		}
+
 		String description = request.getDescription();
 		String url = request.getAbsoluteUrl();
 
