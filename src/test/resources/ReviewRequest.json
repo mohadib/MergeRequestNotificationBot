@@ -1,0 +1,104 @@
+{
+  "review_request": {
+    "commit_id": null,
+    "last_updated": "2017-04-25T17:14:32Z",
+    "target_people": [],
+    "depends_on": [],
+    "description_text_type": "markdown",
+    "issue_resolved_count": 0,
+    "ship_it_count": 0,
+    "close_description_text_type": "plain",
+    "id": 7480,
+    "links": {
+      "diffs": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7480/diffs/",
+        "method": "GET"
+      },
+      "latest_diff": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7480/diffs/1/",
+        "method": "GET"
+      },
+      "repository": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/repositories/36/",
+        "method": "GET",
+        "title": "Stone"
+      },
+      "screenshots": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7480/screenshots/",
+        "method": "GET"
+      },
+      "self": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7480/",
+        "method": "GET"
+      },
+      "update": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7480/",
+        "method": "PUT"
+      },
+      "last_update": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7480/last-update/",
+        "method": "GET"
+      },
+      "reviews": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7480/reviews/",
+        "method": "GET"
+      },
+      "file_attachments": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7480/file-attachments/",
+        "method": "GET"
+      },
+      "draft": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7480/draft/",
+        "method": "GET"
+      },
+      "diff_context": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7480/diff-context/",
+        "method": "GET"
+      },
+      "submitter": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/users/jdavis/",
+        "method": "GET",
+        "title": "jdavis"
+      },
+      "changes": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7480/changes/",
+        "method": "GET"
+      },
+      "delete": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7480/",
+        "method": "DELETE"
+      }
+    },
+    "issue_dropped_count": 0,
+    "bugs_closed": [],
+    "testing_done": "Unit tests",
+    "branch": "",
+    "text_type": null,
+    "time_added": "2017-04-25T17:14:31Z",
+    "extra_data": {
+      "calculated_trophies": true
+    },
+    "public": true,
+    "status": "pending",
+    "close_description": null,
+    "blocks": [],
+    "description": "Update StaffSettings to use new id field in SUser",
+    "testing_done_text_type": "markdown",
+    "issue_open_count": 0,
+    "approved": false,
+    "url": "/reviewboard/r/7480/",
+    "absolute_url": "http://reviewboard.carl.org/reviewboard/r/7480/",
+    "target_groups": [
+      {
+        "href": "http://reviewboard.carl.org/reviewboard/api/groups/Dev/",
+        "method": "GET",
+        "title": "Dev"
+      }
+    ],
+    "summary": "Update StaffSettings to use new id field in SUser",
+    "changenum": null,
+    "approval_failure": "The review request has not been marked \"Ship It!\""
+  },
+  "event": "review_request_published",
+  "is_new": true
+}

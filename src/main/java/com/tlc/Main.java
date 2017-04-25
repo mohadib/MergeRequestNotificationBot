@@ -2,6 +2,7 @@ package com.tlc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tlc.leankit.RssWatcher;
+import com.tlc.reviewboard.*;
 import org.openactive.gitlab.webhook.domain.GitlabEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,6 +41,9 @@ public class Main
    private EventHandler pipelineEventHandler;
 
    @Autowired
+   private ReviewRequestHandler reviewRequestHandler;
+
+   @Autowired
    private RssWatcher rssWatcher;
 
    @Bean
@@ -76,10 +80,17 @@ public class Main
 
    @RequestMapping("/review")
    @ResponseBody
-   public String review( @RequestBody String data )
+   public String review( @RequestBody ReviewRequestWrapper reviewRequestWrapper )
    {
-      System.out.println("REVIEWBOARD");
-      System.out.println(data);
+      try
+      {
+         reviewRequestHandler.handle( reviewRequestWrapper );
+      }
+      catch ( Exception e )
+      {
+         e.printStackTrace();
+      }
+
       return "ok";
    }
 
