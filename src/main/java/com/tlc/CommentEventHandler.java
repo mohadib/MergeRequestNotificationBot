@@ -32,6 +32,12 @@ public class CommentEventHandler implements EventHandler
    @Override
    public void handle( GitlabEvent event )
    {
+
+      if( !event.getAttributes().getNoteableType().equalsIgnoreCase( "MergeRequest" ) )
+      {
+         return;
+      }
+
       // Jason commented on merge request: Snow-123 → Snow
       // http://foo/merge/44
 
