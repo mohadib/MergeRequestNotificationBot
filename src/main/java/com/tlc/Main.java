@@ -41,6 +41,12 @@ public class Main
    private EventHandler pipelineEventHandler;
 
    @Autowired
+   @Qualifier("comment")
+   private EventHandler commentEventHandler;
+
+
+
+   @Autowired
    private ReviewRequestHandler reviewRequestHandler;
 
    @Autowired
@@ -66,6 +72,10 @@ public class Main
       else if( "pipeline".equalsIgnoreCase( event.getObjectKind() ) )
       {
          pipelineEventHandler.handle( event );
+      }
+      else if( "note".equalsIgnoreCase( event.getObjectKind() ) )
+      {
+         commentEventHandler.handle( event );
       }
       return "ok";
    }
