@@ -32,7 +32,7 @@ public class MergeRequestEventHandler implements EventHandler
       String msg = "";
       System.out.println( state );
 
-      List<String> channelNames = channels( sourceBranchName, targetBranchName, projectName );
+      List<String> channelNames = channels( config, sourceBranchName, targetBranchName, projectName );
       if( channelNames.isEmpty() ) return;
 
       if( "opened".equalsIgnoreCase( state ) || "reopened".equalsIgnoreCase( state ) )
@@ -90,21 +90,5 @@ public class MergeRequestEventHandler implements EventHandler
         sourceBranchName,
         targetBranchName
       );
-   }
-
-   private List<String> channels( String source, String target, String project )
-   {
-      return
-        config.getChannelToBranchMap().keySet().stream()
-          .filter( channelName -> {
-
-             List<String> branches = config.getChannelToBranchMap().get( channelName );
-             return branches.stream().anyMatch( branch ->
-               source.toLowerCase().contains( branch.toLowerCase() ) ||
-               target.toLowerCase().contains( branch.toLowerCase() )
-             );
-
-          } )
-          .collect( Collectors.toList() );
    }
 }

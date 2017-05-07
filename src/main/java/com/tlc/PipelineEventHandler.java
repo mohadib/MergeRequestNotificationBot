@@ -21,7 +21,7 @@ public class PipelineEventHandler implements EventHandler
    {
       if( !"failed".equals( event.getAttributes().getStatus() ) ) return;
 
-      List<String> channelNames = channels( event.getAttributes().getRef(), event.getProject().getName() );
+      List<String> channelNames = channels( config,  event.getAttributes().getRef(), event.getProject().getName() );
       if( channelNames.isEmpty() ) return;
 
       String format = ">>> <!here> :hammer: %s: *Pipeline Event* on %s status: *%s*\n";
@@ -55,23 +55,8 @@ public class PipelineEventHandler implements EventHandler
       return
          builds.stream()
            .filter( build -> "failed".equals( build.getStatus() ) )
-           .mapToLong( build -> build.getId() )
+           .mapToLong( Build::getId )
            .findFirst()
            .orElse( -1 );
-   }
-
-   private List<String> channels( String target, String project )
-   {
-      return
-        config.getChannelToBranchMap().keySet().stream()
-          .filter( channelName -> {
-
-             List<String> branches = config.getChannelToBranchMap().get( channelName );
-             return branches.stream().anyMatch( branch ->
-               target.toLowerCase().contains( branch.toLowerCase() )
-             );
-
-          } )
-          .collect( Collectors.toList() );
    }
 }
