@@ -59,6 +59,6 @@ public class CommentEventHandler implements EventHandler
       String msg = String.format( template, author, sourceBranchName, targetBranchName, url );
 
       SlackMessagePoster api = new SlackMessagePoster( config.getApiToken(), config.getBotName(), config.getAvatarUrl());
-      api.say( "bottest",  msg);
+      api.say( "iago-dev",  msg);
    }
 }
