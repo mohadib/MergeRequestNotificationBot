@@ -6,7 +6,7 @@
 
     <groupId>com.tlc</groupId>
     <artifactId>SlackBot</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
 
     <dependencyManagement>
         <dependencies>
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>org.openactive</groupId>
             <artifactId>GitlabWebhookPojos</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>1.2-SNAPSHOT</version>
         </dependency>
 
     </dependencies>
