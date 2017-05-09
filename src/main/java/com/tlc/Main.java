@@ -104,6 +104,23 @@ public class Main
       return "ok";
    }
 
+   @RequestMapping("/reviewComment")
+   @ResponseBody
+   public String reviewComment( @RequestBody String data )
+   {
+      try
+      {
+         System.out.println(data);
+      }
+      catch ( Exception e )
+      {
+         e.printStackTrace();
+      }
+
+      return "ok";
+   }
+
+
    @Bean
    public JSONConfig jsonConfig() throws IOException
    {
