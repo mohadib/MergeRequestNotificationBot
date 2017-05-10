@@ -1,0 +1,53 @@
+{
+  "event": "review_published",
+  "review": {
+    "body_top": "Ship It!",
+    "ship_it": true,
+    "extra_data": {},
+    "links": {
+      "diff_comments": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7508/reviews/12875/diff-comments/",
+        "method": "GET"
+      },
+      "file_attachment_comments": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7508/reviews/12875/file-attachment-comments/",
+        "method": "GET"
+      },
+      "self": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7508/reviews/12875/",
+        "method": "GET"
+      },
+      "update": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7508/reviews/12875/",
+        "method": "PUT"
+      },
+      "screenshot_comments": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7508/reviews/12875/screenshot-comments/",
+        "method": "GET"
+      },
+      "user": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/users/uly/",
+        "method": "GET",
+        "title": "uly"
+      },
+      "replies": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7508/reviews/12875/replies/",
+        "method": "GET"
+      },
+      "delete": {
+        "href": "http://reviewboard.carl.org/reviewboard/api/review-requests/7508/reviews/12875/",
+        "method": "DELETE"
+      }
+    },
+    "text_type": null,
+    "public": true,
+    "timestamp": "2017-05-09T22:32:38Z",
+    "body_bottom": "",
+    "body_top_text_type": "plain",
+    "id": 12875,
+    "body_bottom_text_type": "plain"
+  },
+  "diff_comments": [],
+  "screenshot_comments": [],
+  "file_attachment_comments": []
+}

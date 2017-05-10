@@ -44,10 +44,11 @@ public class Main
    @Qualifier("comment")
    private EventHandler commentEventHandler;
 
-
-
    @Autowired
    private ReviewRequestHandler reviewRequestHandler;
+
+   @Autowired
+   private ReviewCommentHandler reviewCommentHandler;
 
    @Autowired
    private RssWatcher rssWatcher;
@@ -110,7 +111,7 @@ public class Main
    {
       try
       {
-         System.out.println(data);
+         reviewCommentHandler.handle( data );
       }
       catch ( Exception e )
       {
