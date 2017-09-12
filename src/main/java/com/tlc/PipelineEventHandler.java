@@ -30,7 +30,7 @@ public class PipelineEventHandler implements EventHandler
 
       format += event.getProject().getWebUrl();
       if( !format.endsWith( "/" )) format += "/";
-      format += "%s/";
+      format += "%s/%s";
 
       // if badBuildId == -1 most likely a failure due to bad gitlab ci yml, fall back to pipeline link
       String msg = String.format(
