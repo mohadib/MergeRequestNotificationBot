@@ -27,23 +27,19 @@ public class PipelineEventHandler implements EventHandler
       String format = ">>> <!here> :hammer: %s: *Pipeline Event* on %s status: *%s*\n";
 
       long badBuildId = findFaildBuild( event.getBuilds() );
-      if( badBuildId == -1 )
-      {
-         // most likely a failure due to bad gitlab ci yml
-         // fall back to pipeline link
-         format += "https://git.carl.org/connect/connect/pipelines/" + event.getAttributes().getId();
-      }
-      else
-      {
-         format += "https://git.carl.org/connect/connect/builds/" + badBuildId ;
-      }
 
+      format += event.getProject().getWebUrl();
+      if( !format.endsWith( "/" )) format += "/";
+      format += "%s/";
 
+      // if badBuildId == -1 most likely a failure due to bad gitlab ci yml, fall back to pipeline link
       String msg = String.format(
         format,
         event.getProject().getName(),
         event.getAttributes().getRef(),
-        event.getAttributes().getStatus()
+        event.getAttributes().getStatus(),
+        badBuildId == -1 ? "pipelines" : "builds",
+        badBuildId == -1 ? event.getAttributes().getId() : badBuildId
       );
 
       SlackMessagePoster api = new SlackMessagePoster( config.getApiToken(), config.getBotName(), config.getAvatarUrl());
