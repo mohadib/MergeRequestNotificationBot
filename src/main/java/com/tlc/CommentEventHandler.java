@@ -13,7 +13,7 @@ public class CommentEventHandler implements EventHandler
 {
    private Map<Long, Map< String, Long>> mrToAuthorCommentMap = new ConcurrentHashMap<>();
    private final long TEN_MINUTES = 1000 * 60 * 10;
-   private final String template = ">>> :thinking_face: %s *commented* on merge request : %s → %s\n%s";
+   private final String template = ">>> :thinking_face: %s *commented* on merge request : %s \u2192 %s\n%s";
 
    @Autowired
    private JSONConfig config;
