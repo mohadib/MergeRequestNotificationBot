@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component("merge")
 public class MergeRequestEventHandler implements EventHandler
@@ -63,7 +62,7 @@ public class MergeRequestEventHandler implements EventHandler
       else if( "merged".equalsIgnoreCase( state ) )
       {
          iids.remove( iid );
-         msg = String.format( ">>> :tips: %s: *Merge request* accepted by %s : %s → %s ", projectName, userName, sourceBranchName, targetBranchName );
+         msg = String.format( ">>> :tips: %s: *Merge request* accepted by %s : %s \u2192 %s ", projectName, userName, sourceBranchName, targetBranchName );
       }
 
       SlackMessagePoster api = new SlackMessagePoster( config.getApiToken(), config.getBotName(), config.getAvatarUrl());
@@ -73,7 +72,7 @@ public class MergeRequestEventHandler implements EventHandler
    private String updated( String projectName, String userName, String sourceBranchName, String targetBranchName)
    {
       return String.format(
-        ">>> <!here> :mr: %s: *Merge request* (updated) from %s : %s → %s",
+        ">>> <!here> :mr: %s: *Merge request* (updated) from %s : %s \u2192 %s",
         projectName,
         userName,
         sourceBranchName,
@@ -84,7 +83,7 @@ public class MergeRequestEventHandler implements EventHandler
    private String newRequest( String projectName, String userName, String sourceBranchName, String targetBranchName)
    {
       return String.format(
-        ">>> <!here> :mr: %s: *Merge request* from %s : %s → %s",
+        ">>> <!here> :mr: %s: *Merge request* from %s : %s \u2192 %s",
         projectName,
         userName,
         sourceBranchName,
