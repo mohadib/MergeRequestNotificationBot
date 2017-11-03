@@ -19,6 +19,9 @@ public class JSONConfig
    @JsonProperty("channelToBranch")
    private Map< String, List<String>> channelToBranchMap;
 
+   @JsonProperty("channelToUsers")
+   private Map< String, List<String>> channelToUsers;
+
    @JsonProperty("leankit")
    private List<LeankitRss> rssFeeds;
 
@@ -70,5 +73,13 @@ public class JSONConfig
    public void setAvatarUrl( String avatarUrl )
    {
       this.avatarUrl = avatarUrl;
+   }
+
+   public Map<String, List<String>> getChannelToUsers() {
+      return channelToUsers;
+   }
+
+   public void setChannelToUsers(Map<String, List<String>> channelToUsers) {
+      this.channelToUsers = channelToUsers;
    }
 }

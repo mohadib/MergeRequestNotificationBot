@@ -6,16 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
-
 @Component
 public class ReviewRequestHandler
 {
 	@Autowired
 	private JSONConfig config;
-
-	private final List<String> names = Arrays.asList( "jdavis", "ptourvil", "uly" );
 
 	@Async
 	public void handle( ReviewRequestWrapper reviewRequestWrapper )
@@ -29,21 +24,23 @@ public class ReviewRequestHandler
 		if( !forDev ) return;
 
 		// get user and url
-		Link submitter = request.getLinks().get( "submitter" );
-
-		if( !names.contains( submitter.getTitle() ) )
-		{
-			System.out.println("Ignoring review request for " + submitter.getTitle() );
-			return;
-		}
+		String submitterTitle = request.getLinks().get( "submitter" ).getTitle();
 
 		String description = request.getDescription();
 		String url = request.getAbsoluteUrl();
 
-		String msg = String.format( ">>> :reviewboard: New review request from %s : %s\n", submitter.getTitle(), description );
+		String msg = String.format( ">>> :reviewboard: New review request from %s : %s\n", submitterTitle, description );
 		msg += url;
 
 		SlackMessagePoster api = new SlackMessagePoster( config.getApiToken(), config.getBotName(), config.getAvatarUrl() );
-		api.say( "iago-dev", msg );
+		// find channel to post
+		for ( String channel : config.getChannelToUsers().keySet() )
+		{
+			if ( config.getChannelToUsers().get( channel ).contains( submitterTitle ) )
+			{
+				api.say( channel, msg );
+				break;
+			}
+		}
 	}
 }
