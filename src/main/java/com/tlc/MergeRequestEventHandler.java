@@ -37,22 +37,23 @@ public class MergeRequestEventHandler implements EventHandler
 
       if( "opened".equalsIgnoreCase( state ) || "reopened".equalsIgnoreCase( state ) )
       {
-         String comment = event.getAttributes().getLastCommit().getMessage();
-         if( comment.length() > 70 )
-         {
-            comment = comment.substring( 0, 50 )  + "...";
-         }
-
          if( iids.contains( iid ) )
          {
             msg = updated( projectName, userName, sourceBranchName, targetBranchName );
+
+            String comment = event.getAttributes().getLastCommit().getMessage();
+            comment = formatDescription(comment);
+            msg += String.format("\n```%s```", comment);
          }
          else
          {
             iids.add( iid );
             msg = newRequest( projectName, userName, sourceBranchName, targetBranchName );
+
+            String description = event.getAttributes().getDescription();
+            description = formatDescription(description);
+            msg += String.format("\n```%s```", description );
          }
-         msg += String.format("\n```%s```", comment);
          msg += "\n" + event.getAttributes().getUrl();
       }
       else if( "closed".equalsIgnoreCase( state ) )
@@ -68,6 +69,14 @@ public class MergeRequestEventHandler implements EventHandler
 
       SlackMessagePoster api = new SlackMessagePoster( config.getApiToken(), config.getBotName(), config.getAvatarUrl());
       api.say( channelNames, msg );
+   }
+
+   private String formatDescription(String comment) {
+      if( comment.length() > 70 )
+	  {
+		 comment = comment.substring( 0, 50 )  + "...";
+	  }
+      return comment;
    }
 
    private String updated( String projectName, String userName, String sourceBranchName, String targetBranchName)
