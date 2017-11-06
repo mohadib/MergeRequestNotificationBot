@@ -27,9 +27,11 @@ public class ReviewRequestHandler
 		String submitterTitle = request.getLinks().get( "submitter" ).getTitle();
 
 		String description = request.getDescription();
+		String summary = request.getSummary();
 		String url = request.getAbsoluteUrl();
 
-		String msg = String.format( ">>> :reviewboard: New review request from %s : %s\n", submitterTitle, description );
+		String msg = String.format( ">>> :reviewboard: New review request from %s.\n", submitterTitle );
+		msg += String.format("```%s\n\n%s```\n", summary, description);
 		msg += url;
 
 		SlackMessagePoster api = new SlackMessagePoster( config.getApiToken(), config.getBotName(), config.getAvatarUrl() );
