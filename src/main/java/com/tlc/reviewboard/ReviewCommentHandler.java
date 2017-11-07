@@ -42,9 +42,9 @@ public class ReviewCommentHandler
          {
             if( shipIt )
             {
-               api.say( "iago-dev", String.format( shipItTmpl, user, parentReviewId ) );
+               api.say( channel, String.format( shipItTmpl, user, parentReviewId ) );
             }
-            else api.say( "iago-dev", String.format( newCommentTmpl, user, parentReviewId ) );
+            else api.say( channel, String.format( newCommentTmpl, user, parentReviewId ) );
             break;
          }
       }
